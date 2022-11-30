@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "c2940373-7a48-43b9-96e1-138776f925ac",
+		"name": "snowflake-external-functions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16020852"
+	},
+	"item": [
+		{
+			"name": "UnprotectedApiExample",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\":[\r\n        [0, \"Joe\"],\r\n        [1, \"Tim\"],\r\n        [2, \"Michael\"]\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/UnprotectedApiExample",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"UnprotectedApiExample"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "UnprotectedApiExample",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\":[\r\n        [0, \"Joe\"],\r\n        [1, \"Tim\"],\r\n        [2, \"Michael\"]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/UnprotectedApiExample",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"UnprotectedApiExample"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 04 Jul 2022 13:00:52 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        [\n            0,\n            {\n                \"name\": \"Joe\",\n                \"age\": 54,\n                \"count\": 56314\n            }\n        ],\n        [\n            1,\n            {\n                \"name\": \"Tim\",\n                \"age\": 56,\n                \"count\": 45214\n            }\n        ],\n        [\n            2,\n            {\n                \"name\": \"Michael\",\n                \"age\": 70,\n                \"count\": 233482\n            }\n        ]\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "MicrosoftGraphExample",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\":[\r\n        [0] //additional parameters will be ignored\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/MicrosoftGraphExample",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"MicrosoftGraphExample"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VtigerExample",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\":[\r\n        [0, \"Select count(*) from Potentials where potentialname like 'T%';\"]\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/VtigerExample",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"VtigerExample"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "VtigerExampleQuery",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\":[\r\n        [0, \"Select count(*) from Potentials where potentialname like 'T%';\"]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/VtigerExample",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"VtigerExample"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 04 Jul 2022 12:40:48 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        [\n            0,\n            {\n                \"success\": true,\n                \"result\": [\n                    {\n                        \"count\": \"56\"\n                    }\n                ]\n            }\n        ]\n    ]\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:7222",
+			"type": "string"
+		}
+	]
+}
