@@ -1,10 +1,10 @@
 
 - [About repo](#about-repo)
 - [Query data from third-party APIs inside Snowflake](#query-data-from-third-party-apis-inside-snowflake)
-  - [Simple example](#simple-example)
-    - [Understanding input and output](#understanding-input-and-output)
+  - [Concept explained with a simple example](#concept-explained-with-a-simple-example)
+    - [Understanding input and output data](#understanding-input-and-output-data)
     - [Agify implementation](#agify-implementation)
-  - [Examples](#examples)
+  - [Other examples](#other-examples)
   - [Snowflake integration](#snowflake-integration)
     - [Code snippets](#code-snippets)
 - [Cost](#cost)
@@ -26,7 +26,7 @@ The traditional approach would be to sync our web application database to Snowfl
 
 We found Snowflake external functions in Snowflake documentation that can call cloud infrastructure like Azure functions. We got the idea that we could write our custom logic inside Azure Functions, where we could parse data sent from Snowflake and get our API input parameters. After that, we could implement the required authentication for the third-party API. Then forward those parameters to the API and the results from the API would then be returned back to Snowflake in the required format. In essence, Azure Functions serve as a middleman between Snowflake and third-party APIs. With parameters, we can request only the data we actually need from our source. Parameters can also be used for data manipulation. This can give users write and update capabilities on the source data within the Snowflake editor. 
 
-## Simple example
+## Concept explained with a simple example
 Let's use a simple example to illustrate the concept using unprotected API [Agify](https://agify.io/) which predicts the age of a name. 
 
 With a traditional GET request example `https://api.agify.io/?name=Michael` we would get a response like this:
@@ -38,7 +38,7 @@ With a traditional GET request example `https://api.agify.io/?name=Michael` we w
 }
 ```
 
-### Understanding input and output
+### Understanding input and output data
 
 For Azure functions to work with Snowflake external functions it is required that input and output data is in a specific [format](https://docs.snowflake.com/en/sql-reference/external-functions-data-format.html). Snowflake sends and expects data in a scalar format like shown in the snippets below and it is the same for input and output. This scalar format means that if you send 3 row inputs it expects 3 row outputs as a response.
 ```JSON
@@ -228,7 +228,7 @@ This is how the architecture looks like for this example:
 Basically, this is how the concept works. Most of the APIs are protected and they have different types of protection so we prepared a few Azure function examples (wrappers) that demonstrate how to call those protected APIs. You can see the examples in our GitHub repository.
 
 
-## Examples
+## Other examples
 
 We prepared:
 
