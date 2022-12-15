@@ -246,7 +246,7 @@ You can join us in the repository and contribute your API integration example.
 
 ## Snowflake integration
 
-Follow the [official step-by-step guide](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui.html) for integrating external functions, except that you use your own custom Azure functions. This means deploying them to the cloud and proceeding with the guide from  [point](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui-remote-service.html#enable-app-service-authentication-for-the-azure-function-app) on.
+Follow the [official step-by-step guide](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui.html) for integrating external functions, except that you use your own custom Azure functions. This means deploying them to the cloud and proceeding with the guide from  [this point](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui-remote-service.html#enable-app-service-authentication-for-the-azure-function-app) on.
 
 ### Code snippets
 
