@@ -2,8 +2,8 @@
 - [About repo](#about-repo)
 - [Query data from third-party APIs inside Snowflake](#query-data-from-third-party-apis-inside-snowflake)
   - [Concept explained with a simple example](#concept-explained-with-a-simple-example)
-    - [Understanding input and output data](#understanding-input-and-output-data)
-    - [Agify implementation](#agify-implementation)
+    - [Understanding Input and Output](#understanding-input-and-output)
+    - [Agify Implementation](#agify-implementation)
   - [Other examples](#other-examples)
   - [Snowflake integration](#snowflake-integration)
     - [Code snippets](#code-snippets)
@@ -20,16 +20,16 @@ You can read the whole concept with an explained example in our [blog post](./) 
 
 # Query data from third-party APIs inside Snowflake
 
-We had a requirement to access data in Snowflake from an external source. Our external source is web application data. Users of the web application constantly change the data so we had to ensure that the data in Snowflake is always relevant.
+We had a requirement to access data from an external source in Snowflake. Our external source is web application data. Since the users of the web application are constantly changing the data, we needed to make sure that the data in Snowflake is always up to date.
 
-The traditional approach would be to sync our web application database to Snowflake with ETL jobs. Sync processes can be complex, so we wanted to try an approach where we would get the data on-demand directly from our web application API and we would not need to worry about when and where to sync the data to Snowflake. External data also doesn't need to be stored in Snowflake because it is already stored in the web application.
+The traditional approach would be to sync our web application database with Snowflake using ETL jobs. Sync processes can be complex, so we wanted to try an approach where we get the data on-demand directly from our web application API and we would not need to worry about when and where to sync the data to Snowflake. External data also does not need to be stored in Snowflake, since it's already stored in the web application.
 
-We found Snowflake external functions in Snowflake documentation that can call cloud infrastructure like Azure functions. We got the idea that we could write our custom logic inside Azure Functions, where we could parse data sent from Snowflake and get our API input parameters. After that, we could implement the required authentication for the third-party API. Then forward those parameters to the API and the results from the API would then be returned back to Snowflake in the required format. In essence, Azure Functions serve as a middleman between Snowflake and third-party APIs. With parameters, we can request only the data we actually need from our source. Parameters can also be used for data manipulation. This can give users write and update capabilities on the source data within the Snowflake editor. 
+In the Snowflake documentation, we found Snowflake external functions that can call cloud infrastructure like Azure functions. We came up with the idea that we could write our custom logic in Azure Functions, where we could parse the data sent from Snowflake and retrieve our API input parameters. Then we could implement the required authentication for the third-party API. We then pass those parameters to the API and the results from the API would then be returned to Snowflake in the required format. In essence, Azure Functions serves as an intermediary between Snowflake and the third-party APIs. Parameters allow us to request only the data we actually need from our source. Parameters can also be used for data manipulation. This can give users write and update capabilities on the source data within the Snowflake editor.
 
 ## Concept explained with a simple example
-Let's use a simple example to illustrate the concept using unprotected API [Agify](https://agify.io/) which predicts the age of a name. 
+Let's use a simple example to illustrate the concept using the unprotected API [Agify](https://agify.io/), which predicts the age of a name.
 
-With a traditional GET request example `https://api.agify.io/?name=Michael` we would get a response like this:
+Using a traditional GET request, for example `https://api.agify.io/?name=Michael`, we would get a response like this:
 ```JSON
 {
     "name": "Michael",
@@ -38,9 +38,9 @@ With a traditional GET request example `https://api.agify.io/?name=Michael` we w
 }
 ```
 
-### Understanding input and output data
+### Understanding Input and Output
 
-For Azure functions to work with Snowflake external functions it is required that input and output data is in a specific [format](https://docs.snowflake.com/en/sql-reference/external-functions-data-format.html). Snowflake sends and expects data in a scalar format like shown in the snippets below and it is the same for input and output. This scalar format means that if you send 3 row inputs it expects 3 row outputs as a response.
+For Azure functions to interoperate with Snowflake external functions, it is required that input and output data is in a specific [format](https://docs.snowflake.com/en/sql-reference/external-functions-data-format.html). Snowflake sends and expects data in a scalar format, as shown in the snippets below and it is the same for input and output. This scalar format means that if you send 3 rows of input, 3 rows of output are expected in response.
 ```JSON
 {
     "data":[
@@ -50,16 +50,16 @@ For Azure functions to work with Snowflake external functions it is required tha
     ]
 }
 ```
-The first column represents the row number and it is required. In other columns, we can include other parameters. In this example, the second column is an additional parameter of type `varchar` and this will be our input for external API calls.
+The first column represents the row number and is mandatory. In the other columns we can specify other parameters. In this example, the second column is an additional parameter of type `varchar` and will be our input for external API calls. 
 
-We created a helper class for input and output data called `SnowflakeData.cs`
+We have created a helper class for input and output data named `SnowflakeData.cs`
 ```C#
 public class SnowflakeData
 {
     public List<List<dynamic>> data { get; set; } = new List<List<dynamic>>();
 }
 ```
- With this class, we can directly deserialize data sent from Snowflake to an object that we can work with inside Azure functions.
+ With this class, we can deserialize the data sent by Snowflake directly into an object that we can work with inside Azure functions.
 ```C#
 public static async Task<IActionResult> Run(
     [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -90,8 +90,8 @@ public static async Task<IActionResult> Run(
 ```
 
 
-### Agify implementation
-Now let's implement the whole logic for Agify API. For example we can have a table like this, named Users in Snowflake. 
+### Agify Implementation
+Now let's implement the whole logic for Agify API. For example, we can have a table like shown below, named Users in Snowflake. 
 
 | row_id | user_name |
 | -------| ----------|
@@ -99,7 +99,7 @@ Now let's implement the whole logic for Agify API. For example we can have a tab
 | 2      | Tim       |
 | 3      | Michael   |
 
-For these users, we would like to get their age and this data is in another application that has an API endpoint. So let's implement an Azure function that can do that. This is the code for Agify external function:
+For these users, we would like to get their age and this data is in another application that has an API endpoint. So, let's implement an Azure function that can do that. This is the code for Agify external function:
 
 ```C#
  public static class UnprotectedApiExample
@@ -169,7 +169,7 @@ Within the Snowflake editor we can then call our external function with a call l
  select GetAge(user_name) from Users;
 ```
 > **Note:**
-> Azure functions must be deployed to Azure and integrated into Snowflake for this to work. [Integration/Registration Process](#snowflake-integration)
+> Azure functions must be deployed to Azure and integrated into Snowflake for this to work. Follow the [integration process](#snowflake-integration)
 
 This external function call will create a POST call to a registered Azure function endpoint with body data formatted like this:
 ```JSON
@@ -222,15 +222,15 @@ When we flatten the JSON result the table could look like this:
 | 2      | Tim       |2      | 45214    |
 | 3      | Michael   |3      | 233482   |
 
-This is how the architecture looks like for this example:  
+This is how the architecture looks like for this example: 
 ![Unprotected API Architecture](./img/unprotectedAPI.png)
 
-Basically, this is how the concept works. Most of the APIs are protected and they have different types of protection so we prepared a few Azure function examples (wrappers) that demonstrate how to call those protected APIs. You can see the examples in our GitHub repository.
+Basically, this is how the concept works. Most APIs are protected and have different types of protection. Therefore, we have prepared some Azure function examples (wrappers) that demonstrate how you can call these protected APIs. You can see the examples in our GitHub repository.
 
 
 ## Other examples
 
-We prepared:
+We have prepared:
 
 - A simple example using an [unprotected API](./SnowflakeExternalFunctions/UnprotectedApiExample/UnprotectedApiExample.cs)
 
@@ -246,7 +246,7 @@ You can join us in the repository and contribute your API integration example.
 
 ## Snowflake integration
 
-Follow the official step-by-step [guide](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui.html) for integrating external functions, except that you use your own custom Azure functions. That means you deploy them to the cloud and continue with the guide from this [point](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui-remote-service.html#enable-app-service-authentication-for-the-azure-function-app) on.
+Follow the [official step-by-step guide](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui.html) for integrating external functions, except that you use your own custom Azure functions. This means deploying them to the cloud and proceeding with the guide from  [point](https://docs.snowflake.com/en/sql-reference/external-functions-creating-azure-ui-remote-service.html#enable-app-service-authentication-for-the-azure-function-app) on.
 
 ### Code snippets
 
