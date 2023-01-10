@@ -15,7 +15,7 @@
 # About repo
 This repo contains Azure Function examples that integrate third-party APIs and can be integrated with Snowflake External Functions so you can use them from the Snowflake Editor. Its purpose is to provide some examples to illustrate the concept.
 
-You can read the whole concept with an explained example in our [blog post](./) or continue reading here.
+You can read the whole concept with an explained example in our [blog post](https://www.in516ht.com/query-data-from-third-party-apis-inside-snowflake/) or continue reading here.
 
 
 # Query data from third-party APIs inside Snowflake
